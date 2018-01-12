@@ -1,12 +1,9 @@
-FROM fluent/fluentd:v0.12.18
+FROM fluent/fluentd:v1.0.2-onbuild
 
-USER ubuntu
-WORKDIR /home/ubuntu
-ENV PATH /home/ubuntu/ruby/bin:$PATH
-RUN fluent-gem install fluent-plugin-elasticsearch -v 1.9.3 --no-document \
-    && fluent-gem install fluent-plugin-parser --no-document \
-    && fluent-gem install fluent-plugin-rewrite-tag-filter --no-document
-
-USER root
-
-CMD fluentd -c /fluentd/etc/$FLUENTD_CONF -p /fluentd/plugins $FLUENTD_OPT
+RUN apk add --update --virtual .build-deps sudo build-base ruby-dev \
+    && sudo gem install fluent-plugin-elasticsearch -v 2.4.1 --no-document \
+    && sudo gem install fluent-plugin-parser --no-document \
+    && sudo gem install fluent-plugin-rewrite-tag-filter --no-document \
+    && sudo gem sources --clear-all \
+    && apk del .build-deps \
+    && rm -rf /var/cache/apk/* /home/fluent/.gem/ruby/2.3.0/cache/*.gem
