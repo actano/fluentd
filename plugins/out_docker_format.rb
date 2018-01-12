@@ -3,6 +3,9 @@ require 'json'
 module Fluent
   class DockerFormatOutput < Output
     Fluent::Plugin.register_output('docker_format', self)
+
+    helpers :event_emitter
+
     config_param :tag, :string
     config_param :container_id, :string
     config_param :docker_containers_path, :string, :default => '/var/lib/docker/containers'
@@ -12,12 +15,10 @@ module Fluent
       @id_to_name = {}
     end
 
-    def emit(tag, es, chain)
+    def process(tag, es)
       es.each do |time,record|
         router.emit(interpolate_tag(tag), time, format_record(tag, record))
       end
-
-      chain.next
     end
 
     private
