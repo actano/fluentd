@@ -1,12 +1,7 @@
-FROM fluent/fluentd:v1.0.2-onbuild
+# See https://github.com/kubernetes/kubernetes/tree/8743a0e3c67bbe7be4666cc68e1d63c92dd3b1bf/cluster/addons/fluentd-elasticsearch
+FROM gcr.io/google-containers/fluentd-elasticsearch:v2.3.2
 
-RUN apk add --update --virtual .build-deps sudo build-base ruby-dev \
-    && sudo gem install fluent-plugin-elasticsearch -v 2.4.1 --no-document \
-    && sudo gem install fluent-plugin-rewrite-tag-filter --no-document \
-    && sudo gem install fluent-plugin-http-pull --no-document \
-    && sudo gem install fluent-plugin-multi-format-parser --no-document \
-    && sudo gem sources --clear-all \
-    && apk del .build-deps \
-    && rm -rf /var/cache/apk/* /home/fluent/.gem/ruby/2.3.0/cache/*.gem
+COPY Gemfile /Gemfile
 
-ENTRYPOINT fluentd -c /fluentd/etc/${FLUENTD_CONF} -p /fluentd/plugins $FLUENTD_OPT
+RUN echo 'gem: --no-document' >> /etc/gemrc \
+    && gem install --file Gemfile

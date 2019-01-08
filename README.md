@@ -1,18 +1,7 @@
-# docker-fluentd
+# fluentd-elasticsearch
 
-This Dockerfile produces a customized fluentd docker image containing a simple
-configuration and the plugins listed below.
+This Dockerfile produces a customized fluentd-elasticsearch docker image containing custom plugins.
 
-## Default Configuration
+It is to be used in a Kubernetes environment.
 
-* listens on port 24224 with the `forward` input
-* writes all entries to stdout
-
-## Installed Plugins
-
-* [fluent-plugin-elasticsearch](https://github.com/uken/fluent-plugin-elasticsearch)
-
-## Override Configuration
-
-A new configuration file can be mounted at `/fluentd/etc/fluent.conf`. See
-https://hub.docker.com/r/fluent/fluentd/ for more details on customization.
+[Base image configuration at the time of writing](https://github.com/kubernetes/kubernetes/tree/8743a0e3c67bbe7be4666cc68e1d63c92dd3b1bf/cluster/addons/fluentd-elasticsearch)
