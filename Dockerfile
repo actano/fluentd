@@ -1,5 +1,5 @@
-# See https://github.com/kubernetes/kubernetes/tree/8743a0e3c67bbe7be4666cc68e1d63c92dd3b1bf/cluster/addons/fluentd-elasticsearch
-FROM gcr.io/google-containers/fluentd-elasticsearch:v2.3.2
+# See https://github.com/kubernetes/kubernetes/tree/c1d2ac43ee26a83fd4045353937977c120b7246b/cluster/addons/fluentd-elasticsearch/fluentd-es-image
+FROM quay.io/fluentd_elasticsearch/fluentd:v2.6.0
 
 COPY Gemfile /Gemfile
 
