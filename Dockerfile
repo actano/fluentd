@@ -15,3 +15,7 @@ RUN buildDeps="make gcc g++ libc-dev ruby-dev" \
                   $buildDeps \
  && rm -rf /var/lib/apt/lists/* \
  && rm -rf /tmp/* /var/tmp/* /usr/lib/ruby/gems/*/cache/*.gem
+
+COPY http-healthcheck.conf /etc/fluent/config.d/http-healthcheck.conf
+
+EXPOSE 3000
